@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "LoginForm",
   data: () => ({
@@ -65,6 +67,14 @@ export default {
   }),
 
   methods: {
+    login(loginData) {
+      axios
+        .post("https://nexient-side.herokuapp.com/accounts/login", loginData)
+        .then((response) => console.log(response))
+        .catch((error) => {
+          this.errors.push(error);
+        });
+    },
     submitForm() {
       const formData = {
         email: this.email,
@@ -75,7 +85,7 @@ export default {
         console.log(this.errors);
       } else {
         this.errors = [];
-        console.log(formData);
+        this.login(formData);
       }
     },
   },
