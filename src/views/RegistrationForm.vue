@@ -57,9 +57,10 @@
 
           <v-row justify="center" align="center" class="row">
             <v-checkbox
+              color="green darken-2"
               v-model="firstcheckbox"
               :rules="[(v) => !!v || 'You must agree to continue!']"
-              label="I agree with Terms and Conditions"
+              label="I am an employee of MNTN Outerwear."
               required
             ></v-checkbox>
           </v-row>
@@ -90,6 +91,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "RegisterForm",
   data: () => ({
@@ -120,10 +122,18 @@ export default {
     firstcheckbox: false,
   }),
   methods: {
+    login(regdata) {
+      axios
+        .post("https://nexient-side.herokuapp.com/accounts/signup", regdata)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => console.log(error));
+    },
     submitForm() {
       const formData = {
         first_name: this.firstname,
-        last_name: this.last_name,
+        last_name: this.lastname,
         email: this.email,
         password: this.confirm_password,
         login_attempts: 0,
@@ -136,6 +146,7 @@ export default {
       };
       this.$refs.form.validate();
       console.log(formData);
+      this.login(formData);
       this.clearForm();
     },
     clearForm() {
