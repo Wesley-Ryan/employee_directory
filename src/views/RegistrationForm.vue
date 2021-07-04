@@ -4,7 +4,7 @@
       <v-col class="text-center">
         <v-img :src="require('../assets/Logo.jpeg')" contain height="180" />
 
-        <v-form ref="form" class="px-4" v-model="valid" lazy-validation>
+        <v-form ref="form" class="px-4" lazy-validation>
           <v-row justify="center" align="center" class="row">
             <v-col>
               <v-text-field
