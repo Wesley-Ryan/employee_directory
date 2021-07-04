@@ -21,6 +21,7 @@ const routes = [
     path: "/dashboard/:user_id",
     name: "Dashboard",
     component: Dashboard,
+    props: true,
   },
   {
     path: "/about",
