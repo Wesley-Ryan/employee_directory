@@ -59,7 +59,7 @@
             <v-checkbox
               v-model="firstcheckbox"
               :rules="[(v) => !!v || 'You must agree to continue!']"
-              label="I agree with Terms and Conditions"
+              label="I am an employee of MNTN Outerwear."
               required
             ></v-checkbox>
           </v-row>
