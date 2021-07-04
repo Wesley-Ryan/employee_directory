@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="fluid" id="container">
-    <v-app-bar id="nav-bar" dense dark fixed height="80px">
+    <v-app-bar id="nav-bar" dense dark fixed height="70px">
       <v-app-bar-nav-icon>
         <v-img
           :src="require('../assets/logoOnly.png')"
@@ -69,7 +69,7 @@
         </v-row>
       </v-col>
       <v-col class="text-center" style="height: 100vh">
-        <h1>Welcome {{ username }}</h1>
+        <h1>Welcome {{ user.firstName }}</h1>
       </v-col>
     </v-row>
   </v-container>
@@ -97,6 +97,9 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  margin-top: 30px;
+}
 #container {
   margin-top: 30px;
 }
