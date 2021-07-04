@@ -57,6 +57,7 @@
 
           <v-row justify="center" align="center" class="row">
             <v-checkbox
+              color="green darken-2"
               v-model="firstcheckbox"
               :rules="[(v) => !!v || 'You must agree to continue!']"
               label="I am an employee of MNTN Outerwear."
