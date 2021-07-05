@@ -132,6 +132,8 @@ export default {
     },
     submitForm() {
       const formData = {
+        avatar:
+          "https://images.unsplash.com/photo-1546820389-44d77e1f3b31?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzl8fGZhY2V8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
         first_name: this.firstname,
         last_name: this.lastname,
         email: this.email,
@@ -140,6 +142,8 @@ export default {
         title: "",
         salary: "",
         role: 1328,
+        role_name: "Administrator",
+        department_name: "Engineering",
         department: 100,
         pinpoint: "",
         active: true,

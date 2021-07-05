@@ -38,7 +38,9 @@
             <p>Active: {{ employee.active }}</p>
           </div>
           <v-btn elevation="4" large class="ma-4"> Edit Employee</v-btn>
-          <v-btn elevation="4" large class="ma-4"> Deactivate Employee</v-btn>
+          <v-btn elevation="4" large class="ma-4" @click="button(employee.id)">
+            Deactivate Employee</v-btn
+          >
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels></v-container
@@ -77,6 +79,19 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    disableAccount(userId) {
+      axiosAuth
+        .put(`/company/account/${userId}}`, { active: false })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    button(data) {
+      this.disableAccount(data);
     },
   },
 };

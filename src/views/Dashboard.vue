@@ -41,7 +41,7 @@
           <v-card-title id="centered">Your Details</v-card-title>
           <v-row justify="center" align="center" class="row">
             <v-avatar size="124" rounded>
-              <img :src="user.avatar" alt="John" />
+              <img :src="user.avatar" alt="Avatar" />
             </v-avatar>
           </v-row>
           <v-card-text>
@@ -80,6 +80,7 @@
 <script>
 import axiosAuth from "../utils/axiosWithAuth";
 import EmployeeList from "../components/EmployeeList.vue";
+
 export default {
   name: "Dashboard",
   components: { EmployeeList },
@@ -131,8 +132,9 @@ export default {
             firstName: response.data.data.first_name,
             lastName: response.data.data.last_name,
             email: response.data.data.email,
-            role: response.data.data.role,
-            department: response.data.data.department,
+            role: response.data.data.role_name,
+            department: response.data.data.department_name,
+            avatar: response.data.data.avatar,
           };
         })
         .catch((error) => {
@@ -158,6 +160,12 @@ h1 {
 }
 #email {
   text-align: center;
+}
+#centered {
+  font-size: 2rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .div-row {
