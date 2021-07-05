@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import LoginForm from "../views/LoginForm.vue";
 import RegistrationForm from "../views/RegistrationForm.vue";
 import Dashboard from "../views/Dashboard.vue";
+import EditEmployeeForm from "../views/EditEmployeeForm.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,12 @@ const routes = [
     path: "/dashboard/:user_id",
     name: "Dashboard",
     component: Dashboard,
+    props: true,
+  },
+  {
+    path: "/account/edit/:user_id",
+    name: "EditEmployeeForm",
+    component: EditEmployeeForm,
     props: true,
   },
   {
