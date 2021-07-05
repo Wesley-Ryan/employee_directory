@@ -20,16 +20,11 @@
         </template>
 
         <v-list width="200">
-          <v-list-item
-            v-for="link in links"
-            :key="link.id"
-            @click="
-              () => {
-                link.action;
-              }
-            "
-          >
-            <v-list-item-title> {{ link.name }}</v-list-item-title>
+          <v-list-item>
+            <v-list-item-title @click="editSelf"> Account</v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title @click="logout"> Logout</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -37,7 +32,7 @@
 
     <v-row justify="center" align="center" class="row">
       <v-col id="profile-tab">
-        <v-card class="mx-auto my-12" max-width="374">
+        <v-card class="mx-auto my-12" max-width="400">
           <v-card-title id="centered">Your Details</v-card-title>
           <v-row justify="center" align="center" class="row">
             <v-avatar size="124" rounded>
@@ -54,17 +49,16 @@
               >
             </div>
             <div class="div-row">
-              <v-card-text><span>Role:</span> {{ setRole }}</v-card-text>
+              <v-card-text><span>Role:</span> {{ user.role_name }}</v-card-text>
               <v-card-text
-                ><span>Department: </span> {{ setDepartment }}</v-card-text
+                ><span>Department: </span>
+                {{ user.department_name }}</v-card-text
               >
             </div>
 
             <v-card-text id="email">
               <span>Email: </span>
-              <a href="`mailto:fakeemail@mail.com`">{{
-                user.email
-              }}</a></v-card-text
+              <a href="`mailto:${user.email}`">{{ user.email }}</a></v-card-text
             >
           </v-card-text>
         </v-card></v-col
@@ -85,13 +79,9 @@ export default {
   name: "Dashboard",
   components: { EmployeeList },
   data: () => ({
-    links: [
-      { id: 1, name: "Account", action: console.log("Account") },
-      { id: 2, name: "Logout", action: console.log("Logout") },
-    ],
     user: {
       avatar:
-        "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGF2YXRhcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+        "https://images.unsplash.com/photo-1605575034353-070d67bd914b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
       firstName: "",
       lastName: "",
       email: "",
@@ -102,26 +92,7 @@ export default {
   created() {
     this.getData();
   },
-  computed: {
-    setRole() {
-      return "Administrator";
-    },
-    setDepartment() {
-      switch (this.user.department) {
-        case this.user.department == 100:
-          return "Engineering";
 
-        case this.user.department == 200:
-          return "Operations";
-
-        case this.user.department == 300:
-          return "Sales";
-
-        default:
-          return "IT";
-      }
-    },
-  },
   methods: {
     getData() {
       const id = this.$route.params.user_id;
@@ -129,13 +100,30 @@ export default {
         .get(`/company/account/${id}`)
         .then((response) => {
           this.user = {
+            id: response.data.data.id,
             firstName: response.data.data.first_name,
             lastName: response.data.data.last_name,
             email: response.data.data.email,
-            role: response.data.data.role_name,
-            department: response.data.data.department_name,
+            role: response.data.data.role,
+            role_name: response.data.data.role_name,
+            department_name: response.data.data.department_name,
+            department: response.data.data.department,
             avatar: response.data.data.avatar,
           };
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    editSelf() {
+      this.$router.push(`/account/edit/${this.user.id}`);
+    },
+    logout() {
+      axiosAuth
+        .post("/accounts/logout")
+        .then(() => {
+          localStorage.removeItem("MNTN_Corp");
+          this.$router.push({ path: "/" });
         })
         .catch((error) => {
           console.log(error);
