@@ -94,7 +94,7 @@ export default {
       firstName: "",
       lastName: "",
       email: "",
-      role: "",
+      role: 1328,
       department: "",
     },
   }),
@@ -103,16 +103,7 @@ export default {
   },
   computed: {
     setRole() {
-      switch (this.user.role) {
-        case this.user.role == 1328:
-          return "Administrator";
-
-        case this.user.role == 2399:
-          return "Manager";
-
-        default:
-          return "Team Member";
-      }
+      return "Administrator";
     },
     setDepartment() {
       switch (this.user.department) {

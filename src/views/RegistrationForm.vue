@@ -125,8 +125,8 @@ export default {
     login(regdata) {
       axios
         .post("https://nexient-side.herokuapp.com/accounts/signup", regdata)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
+          this.$router.push({ path: `/` });
         })
         .catch((error) => console.log(error));
     },
@@ -139,8 +139,8 @@ export default {
         login_attempts: 0,
         title: "",
         salary: "",
-        role: 3893,
-        department: 300, //add to form,
+        role: 1328,
+        department: 100,
         pinpoint: "",
         active: true,
       };
