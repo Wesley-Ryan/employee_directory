@@ -34,6 +34,7 @@
         </v-list>
       </v-menu>
     </v-app-bar>
+
     <v-row justify="center" align="center" class="row">
       <v-col id="profile-tab">
         <v-card class="mx-auto my-12" max-width="374">
@@ -77,6 +78,7 @@
 </template>
 
 <script>
+import axiosAuth from "../utils/axiosWithAuth";
 import EmployeeList from "../components/EmployeeList.vue";
 export default {
   name: "Dashboard",
@@ -89,13 +91,36 @@ export default {
     user: {
       avatar:
         "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGF2YXRhcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-      firstName: "Vue",
-      lastName: "TestUser",
-      email: "vuetest@mntn.com",
-      role: "Team Member",
-      department: "Sales",
+      firstName: "",
+      lastName: "",
+      email: "",
+      role: "",
+      department: "",
     },
   }),
+  created() {
+    this.getData();
+  },
+  methods: {
+    getData() {
+      const id = this.$route.params.user_id;
+      axiosAuth
+        .get(`/company/account/${id}`)
+        .then((response) => {
+          console.log("MY USER", response.data.data);
+          this.user = {
+            firstName: response.data.data.first_name,
+            lastName: response.data.data.last_name,
+            email: response.data.data.email,
+            role: response.data.data.role,
+            department: response.data.data.department,
+          };
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
 };
 </script>
 
