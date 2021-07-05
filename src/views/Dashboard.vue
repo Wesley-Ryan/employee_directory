@@ -54,9 +54,9 @@
               >
             </div>
             <div class="div-row">
-              <v-card-text><span>Role:</span> {{ user.role }}</v-card-text>
+              <v-card-text><span>Role:</span> {{ setRole }}</v-card-text>
               <v-card-text
-                ><span>Department: </span> {{ user.department }}</v-card-text
+                ><span>Department: </span> {{ setDepartment }}</v-card-text
               >
             </div>
 
@@ -101,13 +101,41 @@ export default {
   created() {
     this.getData();
   },
+  computed: {
+    setRole() {
+      switch (this.user.role) {
+        case this.user.role == 1328:
+          return "Administrator";
+
+        case this.user.role == 2399:
+          return "Manager";
+
+        default:
+          return "Team Member";
+      }
+    },
+    setDepartment() {
+      switch (this.user.department) {
+        case this.user.department == 100:
+          return "Engineering";
+
+        case this.user.department == 200:
+          return "Operations";
+
+        case this.user.department == 300:
+          return "Sales";
+
+        default:
+          return "IT";
+      }
+    },
+  },
   methods: {
     getData() {
       const id = this.$route.params.user_id;
       axiosAuth
         .get(`/company/account/${id}`)
         .then((response) => {
-          console.log("MY USER", response.data.data);
           this.user = {
             firstName: response.data.data.first_name,
             lastName: response.data.data.last_name,
