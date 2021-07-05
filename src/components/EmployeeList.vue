@@ -6,10 +6,7 @@
           <v-row align="center" class="spacer" no-gutters> </v-row>
           <v-col cols="2">
             <v-avatar size="36px">
-              <img
-                alt="Avatar"
-                src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460"
-              />
+              <img alt="Avatar" :src="employee.avatar" />
             </v-avatar>
           </v-col>
           <v-col cols="10">
@@ -23,10 +20,19 @@
         <v-expansion-panel-content>
           <p>ID: {{ employee.id }}</p>
 
+          <v-img
+            alt="Avatar"
+            class="profile-img"
+            :src="employee.avatar"
+            width="150px"
+          />
+
           <div class="info-row">
             <p>First Name: {{ employee.first_name }}</p>
             <p>Last Name: {{ employee.last_name }}</p>
-            <p>Email: {{ employee.email }}</p>
+            <a href="`${employee.email}`"
+              ><p>Email: {{ employee.email }}</p></a
+            >
           </div>
           <div class="info-row">
             <p>Title : {{ employee.title }}</p>
@@ -34,13 +40,16 @@
             <p>Role: {{ employee.role }}</p>
           </div>
           <div class="info-row">
-            <p>Salary: {{ employee.salary }}</p>
+            <p>
+              Salary:
+              {{
+                employee.salary == "$0" || employee.salary == ""
+                  ? "$55,000 "
+                  : employee.salary
+              }}
+            </p>
             <p>Active: {{ employee.active }}</p>
           </div>
-          <v-btn elevation="4" large class="ma-4"> Edit Employee</v-btn>
-          <v-btn elevation="4" large class="ma-4" @click="button(employee.id)">
-            Deactivate Employee</v-btn
-          >
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels></v-container
@@ -105,5 +114,10 @@ export default {
 
 .info-row p {
   margin: 20px;
+}
+.profile-img {
+  border-radius: 5px;
+  height: 200px;
+  margin: 0 auto;
 }
 </style>
