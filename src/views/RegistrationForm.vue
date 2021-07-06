@@ -64,6 +64,7 @@
               required
             ></v-checkbox>
           </v-row>
+          <p id="client-message">{{ clientMessage[0] }}</p>
           <v-row justify="space-around" align="center" class="row">
             <v-col>
               <v-btn
@@ -95,6 +96,7 @@ import axios from "axios";
 export default {
   name: "RegisterForm",
   data: () => ({
+    clientMessage: [],
     firstname: "",
     lastname: "",
     nameRules: [
@@ -126,6 +128,7 @@ export default {
       axios
         .post("https://nexient-side.herokuapp.com/accounts/signup", regdata)
         .then(() => {
+          this.clientMessage.push("Success You Can Now Login.");
           this.$router.push({ path: `/` });
         })
         .catch((error) => console.log(error));
@@ -149,7 +152,6 @@ export default {
         active: true,
       };
       this.$refs.form.validate();
-      console.log(formData);
       this.login(formData);
       this.clearForm();
     },
@@ -167,5 +169,12 @@ export default {
 }
 #form-card {
   max-width: 450px;
+}
+
+#client-message {
+  margin-top: 25px;
+  font-size: 1.2rem;
+  color: #478544;
+  text-align: center;
 }
 </style>

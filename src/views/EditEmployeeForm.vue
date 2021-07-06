@@ -2,7 +2,11 @@
   <v-container fluid class="mx-auto mt-8" id="form-card">
     <v-row justify="center" align="center" class="row">
       <v-col class="text-center">
-        <v-img :src="require('../assets/Logo.jpeg')" contain height="180" />
+        <v-img
+          :src="user.avatar ? user.avatar : require('../assets/Logo.jpeg')"
+          contain
+          height="180"
+        />
 
         <v-form ref="form" class="px-4" lazy-validation>
           <v-row justify="center" align="center" class="row">
@@ -53,12 +57,17 @@
           </v-row>
           <v-row justify="center" align="center" class="row">
             <v-col>
-              <v-select :items="roles" label="Role"></v-select>
+              <v-text-field v-model="role" label="Role" required></v-text-field>
             </v-col>
             <v-col>
-              <v-select :items="departments" label="Department"></v-select>
+              <v-text-field
+                v-model="department"
+                label="Department"
+                required
+              ></v-text-field>
             </v-col>
           </v-row>
+          <p id="error">{{ errors[0] }}</p>
           <v-row justify="space-around" align="center" class="row">
             <v-col>
               <v-btn
@@ -73,7 +82,7 @@
               <v-btn
                 class="grey darken-3 white--text mt-5"
                 width="120"
-                @click="$router.push({ path: `/dashboard/3` })"
+                @click="$router.push({ path: `/dashboard/${user.id}` })"
               >
                 Clear
               </v-btn>
@@ -86,13 +95,23 @@
 </template>
 
 <script>
-import axios from "axios";
+import axiosAuth from "../utils/axiosWithAuth";
 export default {
-  name: "RegisterForm",
+  name: "EditEmployeeForm",
   data: () => ({
-    roles: [1328, 2399, 2893],
-    departments: [400, 300, 200, 100],
-
+    errors: [],
+    user: {
+      avatar: "",
+      first_name: "",
+      lastname: "",
+      email: "",
+      title: "",
+      salary: "",
+      role: 0,
+      department: 0,
+    },
+    role: "",
+    department: "",
     firstname: "",
     lastname: "",
     nameRules: [
@@ -112,33 +131,41 @@ export default {
 
     titleRules: [(v) => !!v || "Title is required"],
   }),
+  created() {
+    this.getData();
+  },
   methods: {
-    login(regdata) {
-      axios
-        .post("https://nexient-side.herokuapp.com/accounts/signup", regdata)
+    getData() {
+      axiosAuth
+        .get(`/company/account/${this.$route.params.user_id}`)
         .then((response) => {
-          console.log(response);
+          this.firstname = response.data.data.first_name;
+          this.lastname = response.data.data.last_name;
+          this.email = response.data.data.email;
+          this.title = response.data.data.title;
+          this.salary = response.data.data.salary;
+          this.role = response.data.data.role;
+          this.department = response.data.data.department;
+
+          this.user = {
+            id: response.data.data.id,
+            avatar: response.data.data.avatar,
+            first_name: response.data.data.first_name,
+            lastname: response.data.data.last_name,
+            email: response.data.data.email,
+            title: response.data.data.title,
+            salary: response.data.data.salary,
+            role: response.data.data.role,
+            department: response.data.data.department,
+          };
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+        });
     },
+
     submitForm() {
-      const formData = {
-        first_name: this.firstname,
-        last_name: this.lastname,
-        email: this.email,
-        password: this.confirm_password,
-        login_attempts: 0,
-        title: "",
-        salary: "",
-        role: 3893,
-        department: 300, //add to form,
-        pinpoint: "",
-        active: true,
-      };
-      this.$refs.form.validate();
-      console.log(formData);
-      this.login(formData);
-      this.clearForm();
+      this.errors.push("SORRY FORM IS NOT SETUP YET");
     },
   },
 };
@@ -151,5 +178,11 @@ export default {
 }
 #form-card {
   max-width: 450px;
+}
+#error {
+  margin-top: 25px;
+  font-size: 1.2rem;
+  color: red;
+  text-align: center;
 }
 </style>
