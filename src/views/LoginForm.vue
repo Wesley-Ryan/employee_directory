@@ -40,8 +40,8 @@
         >
           Register
         </v-btn>
-        <p id="error">{{ errors[0] }}</p>
       </v-row>
+      <p id="error">{{ errors[0] }}</p>
     </v-form>
   </v-container>
 </template>
@@ -70,7 +70,10 @@ export default {
     login(loginData) {
       axios
         .post("https://nexient-side.herokuapp.com/accounts/login", loginData)
-        .then((response) => console.log(response))
+        .then((response) => {
+          localStorage.setItem("MNTN_Corp", response.data.token);
+          this.$router.push({ path: `/dashboard/${response.data.id}` });
+        })
         .catch((error) => {
           this.errors.push(error);
         });
@@ -101,8 +104,9 @@ export default {
   margin: 0 auto;
 }
 #error {
-  margin-top: 15px;
+  margin-top: 25px;
   font-size: 1.2rem;
   color: red;
+  text-align: center;
 }
 </style>

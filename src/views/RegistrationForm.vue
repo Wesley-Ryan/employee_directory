@@ -64,6 +64,7 @@
               required
             ></v-checkbox>
           </v-row>
+          <p id="client-message">{{ clientMessage[0] }}</p>
           <v-row justify="space-around" align="center" class="row">
             <v-col>
               <v-btn
@@ -95,6 +96,7 @@ import axios from "axios";
 export default {
   name: "RegisterForm",
   data: () => ({
+    clientMessage: [],
     firstname: "",
     lastname: "",
     nameRules: [
@@ -125,13 +127,16 @@ export default {
     login(regdata) {
       axios
         .post("https://nexient-side.herokuapp.com/accounts/signup", regdata)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
+          this.clientMessage.push("Success You Can Now Login.");
+          this.$router.push({ path: `/` });
         })
         .catch((error) => console.log(error));
     },
     submitForm() {
       const formData = {
+        avatar:
+          "https://images.unsplash.com/photo-1546820389-44d77e1f3b31?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzl8fGZhY2V8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
         first_name: this.firstname,
         last_name: this.lastname,
         email: this.email,
@@ -139,13 +144,14 @@ export default {
         login_attempts: 0,
         title: "",
         salary: "",
-        role: 3893,
-        department: 300, //add to form,
+        role: 1328,
+        role_name: "Administrator",
+        department_name: "Engineering",
+        department: 100,
         pinpoint: "",
         active: true,
       };
       this.$refs.form.validate();
-      console.log(formData);
       this.login(formData);
       this.clearForm();
     },
@@ -163,5 +169,12 @@ export default {
 }
 #form-card {
   max-width: 450px;
+}
+
+#client-message {
+  margin-top: 25px;
+  font-size: 1.2rem;
+  color: #478544;
+  text-align: center;
 }
 </style>
