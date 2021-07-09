@@ -164,4 +164,10 @@ span {
   font-weight: 400;
   color: black;
 }
+
+@media (max-width: 768px) {
+  #profile-tab {
+    height: 60vh;
+  }
+}
 </style>
